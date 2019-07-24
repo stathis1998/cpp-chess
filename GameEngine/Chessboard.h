@@ -17,5 +17,6 @@ public:
 
 	Piece* getPieceAt(int x, int y);
 	void setPiece(Piece* piece);
+	bool isTileEmpty(int x, int y);
+	void emptyTile(int x, int y);
 };
-

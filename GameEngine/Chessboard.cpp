@@ -32,7 +32,7 @@ void Chessboard::render() {
 Piece* Chessboard::getPieceAt(int x, int y) {
 	int index = (y - 1) * 8 + x - 1;
 
-	if (index > 8 * 8 - 1) {
+	if (index > 8 * 8 - 1 || index < 0) {
 		return nullptr;
 	}
 	
@@ -46,4 +46,17 @@ void Chessboard::setPiece(Piece* piece) {
 	int index = y * 8 + x;
 
 	this->tiles[index]->setPiece(piece);
+}
+
+bool Chessboard::isTileEmpty(int x, int y) {
+	int index = (y - 1) * 8 + x - 1;
+
+	return !this->tiles[index]->hasPiece();
+}
+
+void Chessboard::emptyTile(int x, int y) {
+	int index = (y - 1) * 8 + x - 1;
+	this->tiles[index]->emptyPiece();
+
+	std::cout << "tile " << index << " empty\n";
 }

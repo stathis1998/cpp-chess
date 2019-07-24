@@ -82,25 +82,57 @@ void Game::handleEvents() {
 
 			if (x <= 8) {
 				if (player1->getPlaying()) {
-					bool selectedPawn = false;
+					if (player1->getPhase() == 1) {
+						bool selectedPawn = false;
 
-					selectedPawn = player1->selectPiece(chessboard, x, y);
+						selectedPawn = player1->selectPiece(chessboard, x, y);
 
-					if (selectedPawn) {
+						if (selectedPawn) {
+							std::cout << "White selected\n";
+							player1->setPhase(2);
+						}
+					} else if (player1->getPhase() == 2) {
+						bool selectedTile = player1->selectTile(chessboard, x, y);
+						
+						if (selectedTile) {
+							std::cout << "White moved\n";
+							player1->moveSelectedPieceAt(chessboard, x, y);
 
-						//player1->setPlaying(false);
-						//player2->setPlaying(true);
+							player1->setPlaying(false);
+							player2->setPlaying(true);
+
+							player1->setPhase(1);
+						} else {
+							player1->setPhase(1);
+							std::cout << "White deselected\n";
+						}
 					}
 				} else if (player2->getPlaying()) {
-					bool selectedPawn = false;
+					if (player2->getPhase() == 1) {
+						bool selectedPawn = false;
 
-					selectedPawn = player2->selectPiece(chessboard, x, y);
+						selectedPawn = player2->selectPiece(chessboard, x, y);
 
-					if (selectedPawn) {
-						player2->setPlaying(false);
-						player1->setPlaying(true);
+						if (selectedPawn) {
+							std::cout << "Black selected\n";
+							player2->setPhase(2);
+						}
+					} else if (player2->getPhase() == 2) {
+						bool selectedTile = player2->selectTile(chessboard, x, y);
 
-						std::cout << "2 select\n";
+						if (selectedTile) {
+							std::cout << "Black moved\n";
+							player2->moveSelectedPieceAt(chessboard, x, y);
+
+							player2->setPlaying(false);
+							player1->setPlaying(true);
+
+							player2->setPhase(1);
+						}
+						else {
+							player2->setPhase(1);
+							std::cout << "Black deselected\n";
+						}
 					}
 				}
 			}

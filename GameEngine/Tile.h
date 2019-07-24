@@ -15,5 +15,5 @@ public:
 	void setPiece(Piece* piece);
 
 	Piece* hasPiece();
+	void emptyPiece();
 };
-

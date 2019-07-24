@@ -44,5 +44,5 @@ public:
 	Color getColor();
 
 	virtual std::vector<Move> getPossibleMoves(Chessboard* chessboard) = 0;
+	virtual void moveTo(Chessboard* chessboard, int x, int y);
 };
-

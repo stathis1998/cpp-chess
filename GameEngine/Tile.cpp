@@ -11,3 +11,7 @@ void Tile::setPiece(Piece* piece) {
 Piece* Tile::hasPiece() {
 	return (this->piece) ? this->piece : nullptr;
 }
+
+void Tile::emptyPiece() {
+	this->piece = nullptr;
+}

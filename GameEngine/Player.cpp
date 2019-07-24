@@ -9,7 +9,7 @@
 #include "pieces/King.h"
 
 
-Player::Player(Color color, Chessboard* chessboard) : color(color), score(0), selectedPiece(nullptr), playing(false) {
+Player::Player(Color color, Chessboard* chessboard) : color(color), score(0), selectedPiece(nullptr), playing(false), phase(1) {
 	this->pieces.reserve(16);
 
 	int pawnsRow, piecesRow;
@@ -79,9 +79,18 @@ std::vector<Piece*> Player::getPieces() const {
 	return this->pieces;
 
 }
+
+int Player::getPhase() {
+	return this->phase;
+}
+
 // Setters
 void Player::setPlaying(bool playing) {
 	this->playing = playing;
+}
+
+void Player::setPhase(int phase) {
+	this->phase = phase;
 }
 
 void Player::updatePieces() const {
@@ -112,5 +121,27 @@ bool Player::selectPiece(Chessboard* chessboard, int x, int y) {
 		return false;
 	}
 
+	this->possibleMoves = this->selectedPiece->getPossibleMoves(chessboard);
+
 	return true;
+}
+
+bool Player::selectTile(Chessboard* chessboard, int x, int y) {
+	bool tileEmpty = chessboard->isTileEmpty(x, y);
+
+	if (tileEmpty) {
+		for (int i = 0; i < this->possibleMoves.size(); i++) {
+			if (this->possibleMoves[i].x == x && this->possibleMoves[i].y == y) {
+				return true;
+			}
+		}
+	}
+
+	this->selectedPiece = nullptr;
+
+	return false;
+}
+
+void Player::moveSelectedPieceAt(Chessboard* chessboard, int x, int y) {
+	this->selectedPiece->moveTo(chessboard, x, y);
 }
