@@ -24,6 +24,8 @@ enum Value {
 	KING = 900
 };
 
+class Chessboard;
+
 class Piece : public StaticMesh {
 protected:
 	Color color;
@@ -41,6 +43,6 @@ public:
 	std::string getName();
 	Color getColor();
 
-	virtual std::vector<Move> getPossibleMoves() = 0;
+	virtual std::vector<Move> getPossibleMoves(Chessboard* chessboard) = 0;
 };
 

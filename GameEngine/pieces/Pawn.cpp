@@ -4,7 +4,7 @@
 
 Pawn::Pawn(const char* path, int x, int y, Color color) : Piece(path, x, y, color, Value::PAWN, "Pawn") { }
 
-std::vector<Move> Pawn::getPossibleMoves() {
+std::vector<Move> Pawn::getPossibleMoves(Chessboard* chessboard) {
 	std::vector<Move> moves;
 	/*moves.reserve(4);
 
