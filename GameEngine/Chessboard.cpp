@@ -57,6 +57,4 @@ bool Chessboard::isTileEmpty(int x, int y) {
 void Chessboard::emptyTile(int x, int y) {
 	int index = (y - 1) * 8 + x - 1;
 	this->tiles[index]->emptyPiece();
-
-	std::cout << "tile " << index << " empty\n";
 }

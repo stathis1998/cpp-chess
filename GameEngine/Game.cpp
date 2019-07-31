@@ -13,7 +13,7 @@ Chessboard* chessboard = nullptr;
 Player* player1 = nullptr;
 Player* player2 = nullptr;
 
-//FontManager* test = nullptr;
+FontManager* playerTurn = nullptr;
 
 Game::Game() : isRunning(false), window(nullptr) { }
 
@@ -61,7 +61,7 @@ void Game::init(const char* title, int width, int height, bool flags) {
 
 	player1->setPlaying(true);
 
-	//test = new FontManager("Nothing selected", 24, "assets/calibri.ttf", { 0, 0, 0 }, 8 * BLOCK + 10, 15);
+	playerTurn = new FontManager("White's Turn", 24, "assets/calibri.ttf", { 0, 0, 0 }, 8 * BLOCK + 10, 15);
 }
 
 void Game::handleEvents() {
@@ -88,50 +88,47 @@ void Game::handleEvents() {
 						selectedPawn = player1->selectPiece(chessboard, x, y);
 
 						if (selectedPawn) {
-							std::cout << "White selected\n";
 							player1->setPhase(2);
 						}
 					} else if (player1->getPhase() == 2) {
 						bool selectedTile = player1->selectTile(chessboard, x, y);
 						
 						if (selectedTile) {
-							std::cout << "White moved\n";
 							player1->moveSelectedPieceAt(chessboard, x, y);
 
 							player1->setPlaying(false);
 							player2->setPlaying(true);
 
 							player1->setPhase(1);
+							playerTurn->setText("Black's Turn");
 						} else {
 							player1->setPhase(1);
-							std::cout << "White deselected\n";
 						}
 					}
 				} else if (player2->getPlaying()) {
+
 					if (player2->getPhase() == 1) {
 						bool selectedPawn = false;
 
 						selectedPawn = player2->selectPiece(chessboard, x, y);
 
 						if (selectedPawn) {
-							std::cout << "Black selected\n";
 							player2->setPhase(2);
 						}
 					} else if (player2->getPhase() == 2) {
 						bool selectedTile = player2->selectTile(chessboard, x, y);
 
 						if (selectedTile) {
-							std::cout << "Black moved\n";
 							player2->moveSelectedPieceAt(chessboard, x, y);
 
 							player2->setPlaying(false);
 							player1->setPlaying(true);
 
 							player2->setPhase(1);
+							playerTurn->setText("White's Turn");
 						}
 						else {
 							player2->setPhase(1);
-							std::cout << "Black deselected\n";
 						}
 					}
 				}
@@ -155,7 +152,7 @@ void Game::render() {
 
 	player1->renderPieces();
 	player2->renderPieces();
-	//test->render();
+	playerTurn->render();
 
 	SDL_RenderPresent(Game::Renderer);
 }
